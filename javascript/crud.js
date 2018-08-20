@@ -31,6 +31,16 @@ document.addEventListener('change', function(e){
 		updateIdea(changed.closest('.idea'));
 	}
 
+});
+
+document.addEventListener('click', function(e){
+
+	var clicked = e.target;
+
+	if(clicked.matches('.idea_delete')){
+
+		deleteIdea(clicked.closest('.idea'));
+	}
 
 });
 
@@ -111,4 +121,18 @@ function updateIdea(idea){
 		console.log(response);
 	});
 
+}
+
+function deleteIdea(idea){
+
+	jQuery.ajax({
+		url: 'https://www.getdone.pw/wp-json/wp/v2/idea/' + idea.id,
+		method: 'DELETE',
+		beforeSend: function(xhr){
+			xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('auth_token'));
+		}
+	})
+	.done(function(response){
+		readIdeas();
+	})
 }
