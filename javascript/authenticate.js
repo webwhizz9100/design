@@ -11,6 +11,26 @@ var createTaskEl = document.getElementById('Task_create');
 var body = document.getElementsByTagName('body')[0];
 
 
+
+/**
+ * Event Listeners
+ */
+
+ document.addEventListener('click', function(e){
+
+ 	var clicked = e.target;
+
+ 	if(clicked.matches('#login_button')) {
+
+		// stop form submission
+		e.preventDefault();
+		
+		// get and save our token
+		getToken(username.value, password.value);
+ 	}
+});
+
+
 /**
  * Functions
  */
