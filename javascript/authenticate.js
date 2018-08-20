@@ -38,6 +38,13 @@ var body = document.getElementsByTagName('body')[0];
 });
 
 
+document.addEventListener("DOMContentLoaded", function(e) { 
+  
+	setAuthClass(body, 'authorized');
+
+});
+
+
 /**
  * Functions
  */
@@ -62,8 +69,28 @@ function getToken(username, password){
 
 function saveToken(token){
 	sessionStorage.setItem('auth_token', token);
+
+		setAuthClass(body, 'authorized');
+
 }
 
 function deleteToken(){
 	sessionStorage.removeItem('auth_token');
+
+	setAuthClass(body, 'authorized');
+
+}
+
+function setAuthClass(el, className){
+
+	if(sessionStorage.getItem('auth_token')) {
+
+		el.classList.add(className);
+
+	} else {
+
+		el.classList.remove(className);
+
+	}
+
 }
