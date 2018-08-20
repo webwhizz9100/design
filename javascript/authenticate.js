@@ -28,6 +28,13 @@ var body = document.getElementsByTagName('body')[0];
 		// get and save our token
 		getToken(username.value, password.value);
  	}
+
+
+ 	if(clicked.matches('#logout_button')){
+
+ 		deleteToken();
+ 	}
+
 });
 
 
