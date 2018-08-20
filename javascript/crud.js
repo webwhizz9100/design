@@ -2,6 +2,19 @@
 // save our Ideas container
 var ideasUL = document.getElementById('ideas');
 
+// make a request for Ideas
+var ideas = jQuery.ajax(
+	{
+    	url: 'https://www.getdone.pw/wp-json/wp/v2/idea',
+    	method: 'GET',
+	}
+).done(function(response){
+
+	// render Ideas
+	readIdeas(response, ideasUL);
+
+});
+
 // render the ideas into the container
 function readIdeas(ideas, container){
 	
