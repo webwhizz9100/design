@@ -26,6 +26,12 @@ document.addEventListener('change', function(e){
 		changed.value = '';
 	}
 
+	if(changed.matches('.idea_edit')){
+
+		updateIdea(changed.closest('.idea'));
+	}
+
+
 });
 
 
@@ -59,9 +65,9 @@ function renderIdeas(ideas, container){
 	for(var i = 0; i < ideas.length; i++){
 		var idea = ideas[i];
 		var ideasTemplate =  `
-			<li class="Idea">
-				<input class="Idea_edit" type="text"value="${idea.title.rendered}"/>
-				<button class="Idea_delete">Delete</button>
+			<li class="idea" id="${idea.id}">
+				<input class="idea_edit" type="text" value="${idea.title.rendered}"/>
+				<button class="idea_delete">Delete</button>
 			</li>
 		`;
 		container.innerHTML += ideasTemplate;
@@ -83,4 +89,26 @@ function createIdea(title){
 	}).done(function(response){
 		readIdeas();
 	});
+}
+
+function updateIdea(idea){
+
+	var input = idea.querySelector('input[type=text]');
+
+	jQuery.ajax({
+		url: 'https://www.getdone.pw/wp-json/wp/v2/idea/' + idea.id,
+		method: 'POST',
+		beforeSend: function(xhr){
+			xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('auth_token'));
+		},
+		data: {
+			'title': input.value,
+			'status': 'publish'
+		}
+	})
+	.done(function(response){
+		input.value = response.title.rendered;
+		console.log(response);
+	});
+
 }
